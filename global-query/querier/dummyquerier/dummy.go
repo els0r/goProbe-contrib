@@ -3,11 +3,11 @@ package dummyquerier
 import (
 	"context"
 
-	"github.com/els0r/goProbe/cmd/global-query/pkg/distributed"
-	"github.com/els0r/goProbe/cmd/global-query/pkg/hosts"
-	"github.com/els0r/goProbe/pkg/query"
-	"github.com/els0r/goProbe/pkg/results"
-	"github.com/els0r/goProbe/plugins"
+	"github.com/els0r/goProbe/v4/cmd/global-query/pkg/distributed"
+	"github.com/els0r/goProbe/v4/cmd/global-query/pkg/hosts"
+	"github.com/els0r/goProbe/v4/pkg/query"
+	"github.com/els0r/goProbe/v4/pkg/results"
+	"github.com/els0r/goProbe/v4/plugins"
 )
 
 const (
@@ -27,10 +27,10 @@ func New(_ string) (*DummyQuerier, error) {
 	return &DummyQuerier{}, nil
 }
 
-func (d *DummyQuerier) Query(ctx context.Context, hosts hosts.Hosts, args *query.Args) <-chan *results.Result {
+func (d *DummyQuerier) Query(ctx context.Context, hosts hosts.Hosts, args *query.Args) (<-chan *results.Result, <-chan struct{}) {
 	out := make(chan *results.Result, 1)
 	go func() {
 		out <- results.New()
 	}()
-	return out
+	return out, nil
 }
